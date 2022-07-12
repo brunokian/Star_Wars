@@ -20,13 +20,12 @@ function Table() {
     'Url',
   ];
 
-  // const handleFilterName = () => {
-  //   const planetsName = data.map((obj) => obj.name);
-  //   const negative = -1;
-  //   const filter = planetsName.filter(
-  //     (planet) => planet.indexOf(filterByName) === negative,
-  //   );
-  // };
+  const handleFilterName = () => {
+    const planetFiltered = data.filter((planet) => (
+      planet.name.toLowerCase().includes(filterByName.name.toLowerCase())
+    ));
+    return planetFiltered;
+  };
 
   // function teste() {
   //   console.log('oi', data.map((obj) => obj.name));
@@ -57,13 +56,7 @@ function Table() {
       </thead>
       <tbody>
         {
-          data.filter((value) => {
-            if (filterByName.name === '') {
-              return value;
-            } if (value.name.toLowerCase().includes((filterByName.name).toLowerCase())) {
-              return value;
-            }
-          }).map((planet, index) => (
+          handleFilterName().map((planet, index) => (
             <tr key={ index }>
               {
                 Object.values(planet).map((dataBase, index2) => (

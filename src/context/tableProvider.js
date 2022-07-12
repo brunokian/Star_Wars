@@ -6,13 +6,26 @@ import TableContext from './tableContext';
 function TableProvider({ children }) {
   const [data, setData] = useState([]);
   const [filterName, setFilterName] = useState('');
+  const [column, setColumn] = useState('population');
+  const [comparison, setComparison] = useState('maior que');
+  const [value, setValue] = useState('');
 
-  const value = {
+  const contextValue = {
     data,
     filterByName: {
       name: filterName,
     },
+    filterByNumericValues: [
+      {
+        column,
+        comparison,
+        value,
+      },
+    ],
     setFilterName,
+    setColumn,
+    setComparison,
+    setValue,
   };
 
   const fetchPlanets = async () => {
@@ -41,7 +54,7 @@ function TableProvider({ children }) {
   }, []);
 
   return (
-    <TableContext.Provider value={ value }>
+    <TableContext.Provider value={ contextValue }>
       { children }
     </TableContext.Provider>
   );
