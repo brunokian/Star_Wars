@@ -8,7 +8,7 @@ function TableProvider({ children }) {
   const [filterName, setFilterName] = useState('');
   const [column, setColumn] = useState('population');
   const [comparison, setComparison] = useState('maior que');
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState(0);
 
   const contextValue = {
     data,

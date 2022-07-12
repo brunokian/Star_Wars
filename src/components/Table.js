@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import tableContext from '../context/tableContext';
 
 function Table() {
-  const { data, filterByName } = useContext(tableContext);
+  const { data, filterByName, filterByNumericValues } = useContext(tableContext);
 
   const categories = [
     'Name',
@@ -21,10 +21,27 @@ function Table() {
   ];
 
   const handleFilterName = () => {
+    const result = [];
     const planetFiltered = data.filter((planet) => (
       planet.name.toLowerCase().includes(filterByName.name.toLowerCase())
     ));
-    return planetFiltered;
+    if (filterByNumericValues[0].comparison === 'maior que') {
+      const filtered = planetFiltered.filter((planet) => (
+        +planet[filterByNumericValues[0].column] > filterByNumericValues[0].value
+      ));
+      result.push(...filtered);
+    } if (filterByNumericValues[0].comparison === 'menor que') {
+      const filtered = planetFiltered.filter((planet) => (
+        +planet[filterByNumericValues[0].column] < filterByNumericValues[0].value
+      ));
+      result.push(...filtered);
+    } if (filterByNumericValues[0].comparison === 'igual a') {
+      const filtered = planetFiltered.filter((planet) => (
+        +planet[filterByNumericValues[0].column] === filterByNumericValues[0].value
+      ));
+      result.push(...filtered);
+    }
+    return result;
   };
 
   // function teste() {
