@@ -2,7 +2,8 @@ import React, { useContext } from 'react';
 import tableContext from '../context/tableContext';
 
 function Table() {
-  const { data } = useContext(tableContext);
+  const { data, filterByName } = useContext(tableContext);
+
   const categories = [
     'Name',
     'Rotation Period',
@@ -18,6 +19,21 @@ function Table() {
     'Edited',
     'Url',
   ];
+
+  // const handleFilterName = () => {
+  //   const planetsName = data.map((obj) => obj.name);
+  //   const negative = -1;
+  //   const filter = planetsName.filter(
+  //     (planet) => planet.indexOf(filterByName) === negative,
+  //   );
+  // };
+
+  // function teste() {
+  //   console.log('oi', data.map((obj) => obj.name));
+  // }
+
+  // teste();
+  // handleFilterName();
 
   return (
     <table>
@@ -41,7 +57,13 @@ function Table() {
       </thead>
       <tbody>
         {
-          data.map((planet, index) => (
+          data.filter((value) => {
+            if (filterByName.name === '') {
+              return value;
+            } if (value.name.toLowerCase().includes((filterByName.name).toLowerCase())) {
+              return value;
+            }
+          }).map((planet, index) => (
             <tr key={ index }>
               {
                 Object.values(planet).map((dataBase, index2) => (
