@@ -4,10 +4,64 @@ import tableContext from '../context/tableContext';
 function NumericFilter() {
   const {
     filterByNumericValues,
+    setFilterByNumericValues,
+    column,
+    comparison,
+    value,
     setColumn,
     setComparison,
     setValue,
+    data,
   } = useContext(tableContext);
+
+  const setFilter = () => {
+    setFilterByNumericValues((prev) => [...prev, { column, comparison, value }]);
+    console.log('aqui', filterByNumericValues[0]);
+    // const result = [];
+    // if (filterByNumericValues[0].comparison === 'maior que') {
+    //   const filtered = data.filter((planet) => (
+    //     +planet[filterByNumericValues[0].column] > +filterByNumericValues[0].value
+    //   ));
+    //   result.push(...filtered);
+    // } if (filterByNumericValues[0].comparison === 'menor que') {
+    //   const filtered = data.filter((planet) => (
+    //     +planet[filterByNumericValues[0].column] < +filterByNumericValues[0].value
+    //   ));
+    //   result.push(...filtered);
+    // } if (filterByNumericValues[0].comparison === 'igual a') {
+    //   const filtered = data.filter((planet) => (
+    //     +planet[filterByNumericValues[0].column] === +filterByNumericValues[0].value
+    //   ));
+    //   result.push(...filtered);
+    // }
+    // return result;
+  };
+
+  // const handleFilterNumber = () => {
+  //   const result = [];
+  //   // const planetFiltered = handleFilterName();
+  //   if (comparison === 'maior que') {
+  //     const filtered = data.filter((planet) => (
+  //       +planet[column] > +value
+  //     ));
+  //     result.push(...filtered);
+  //   } if (comparison === 'menor que') {
+  //     const filtered = data.filter((planet) => (
+  //       +planet[column] < +value
+  //     ));
+  //     result.push(...filtered);
+  //   } if (comparison === 'igual a') {
+  //     const filtered = data.filter((planet) => (
+  //       +planet[column] === +value
+  //     ));
+  //     result.push(...filtered);
+  //   }
+  //   return result;
+  // };
+
+  // useEffect(() => {
+  //   handleFilterNumber();
+  // }, [filterByNumericValues]);
 
   return (
     <div>
@@ -15,7 +69,7 @@ function NumericFilter() {
         name="column"
         id="column"
         data-testid="column-filter"
-        value={ filterByNumericValues[0].column }
+        value={ column }
         onChange={ ({ target }) => setColumn(target.value) }
       >
         <option value="population">population</option>
@@ -28,7 +82,7 @@ function NumericFilter() {
         name="comparison"
         id="compaarion"
         data-testid="comparison-filter"
-        value={ filterByNumericValues[0].comparison }
+        value={ comparison }
         onChange={ ({ target }) => setComparison(target.value) }
       >
         <option value="maior que">maior que</option>
@@ -40,7 +94,7 @@ function NumericFilter() {
         name="value"
         data-testid="value-filter"
         type="text"
-        value={ filterByNumericValues[0].value }
+        value={ value }
         onChange={ ({ target }) => setValue(target.value) }
       />
       <button
@@ -48,6 +102,7 @@ function NumericFilter() {
         name="filterButton"
         data-testid="button-filter"
         type="button"
+        onClick={ () => setFilter() }
       >
         FILTRAR
       </button>

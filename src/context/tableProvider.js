@@ -9,23 +9,30 @@ function TableProvider({ children }) {
   const [column, setColumn] = useState('population');
   const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState(0);
+  const [filterByNumericValues, setFilterByNumericValues] = useState([]);
+
+  const handleFilterName = () => {
+    const planetFiltered = data.filter((planet) => (
+      planet.name.toLowerCase().includes(filterName.toLowerCase())
+    ));
+    return planetFiltered;
+  };
 
   const contextValue = {
     data,
     filterByName: {
       name: filterName,
     },
-    filterByNumericValues: [
-      {
-        column,
-        comparison,
-        value,
-      },
-    ],
+    filterByNumericValues,
+    column,
+    comparison,
+    value,
+    setFilterByNumericValues,
     setFilterName,
     setColumn,
     setComparison,
     setValue,
+    handleFilterName,
   };
 
   const fetchPlanets = async () => {
