@@ -5,16 +5,22 @@ import TableContext from './tableContext';
 
 function TableProvider({ children }) {
   const [data, setData] = useState([]);
+
   const [filterName, setFilterName] = useState('');
+
   const [column, setColumn] = useState('population');
   const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState(0);
   const [filterByNumericValues, setFilterByNumericValues] = useState([]);
 
+  const [filter, setFilters] = useState([]);
+  const [teste, setTeste] = useState(false);
+
   const handleFilterName = () => {
     const planetFiltered = data.filter((planet) => (
       planet.name.toLowerCase().includes(filterName.toLowerCase())
     ));
+    // console.log(planetFiltered);
     return planetFiltered;
   };
 
@@ -33,6 +39,10 @@ function TableProvider({ children }) {
     setComparison,
     setValue,
     handleFilterName,
+    filter,
+    setFilters,
+    teste,
+    setTeste,
   };
 
   const fetchPlanets = async () => {

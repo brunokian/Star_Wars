@@ -3,7 +3,8 @@ import tableContext from '../context/tableContext';
 
 function NumericFilter() {
   const {
-    filterByNumericValues,
+    // filterByNumericValues,
+    handleFilterName,
     setFilterByNumericValues,
     column,
     comparison,
@@ -11,53 +12,64 @@ function NumericFilter() {
     setColumn,
     setComparison,
     setValue,
-    data,
+    setFilters,
+    setTeste,
   } = useContext(tableContext);
 
-  const setFilter = () => {
-    setFilterByNumericValues((prev) => [...prev, { column, comparison, value }]);
-    console.log('aqui', filterByNumericValues[0]);
-    // const result = [];
-    // if (filterByNumericValues[0].comparison === 'maior que') {
-    //   const filtered = data.filter((planet) => (
-    //     +planet[filterByNumericValues[0].column] > +filterByNumericValues[0].value
-    //   ));
-    //   result.push(...filtered);
-    // } if (filterByNumericValues[0].comparison === 'menor que') {
-    //   const filtered = data.filter((planet) => (
-    //     +planet[filterByNumericValues[0].column] < +filterByNumericValues[0].value
-    //   ));
-    //   result.push(...filtered);
-    // } if (filterByNumericValues[0].comparison === 'igual a') {
-    //   const filtered = data.filter((planet) => (
-    //     +planet[filterByNumericValues[0].column] === +filterByNumericValues[0].value
-    //   ));
-    //   result.push(...filtered);
-    // }
-    // return result;
+  const handleFilterNumber = () => {
+    const result = [];
+    const planetFiltered = handleFilterName();
+    if (comparison === 'maior que') {
+      const filtered = planetFiltered.filter((planet) => (
+        +planet[column] > +value
+      ));
+      result.push(...filtered);
+    } if (comparison === 'menor que') {
+      const filtered = planetFiltered.filter((planet) => (
+        +planet[column] < +value
+      ));
+      result.push(...filtered);
+    } if (comparison === 'igual a') {
+      const filtered = planetFiltered.filter((planet) => (
+        +planet[column] === +value
+      ));
+      result.push(...filtered);
+    }
+    console.log(result);
+    setTeste(true);
+    return result;
   };
 
-  // const handleFilterNumber = () => {
+  const setFilter = async () => {
+    setFilterByNumericValues((prev) => [...prev, { column, comparison, value }]);
+    // handleFilterNumber();
+    setFilters(handleFilterNumber());
+  };
+
+  // const filterNumber = () => {
   //   const result = [];
-  //   // const planetFiltered = handleFilterName();
-  //   if (comparison === 'maior que') {
+  //   if (filterByNumericValues[0].comparison === 'maior que') {
   //     const filtered = data.filter((planet) => (
-  //       +planet[column] > +value
+  //       +planet[filterByNumericValues[0].column] > +filterByNumericValues[0].value
   //     ));
   //     result.push(...filtered);
-  //   } if (comparison === 'menor que') {
+  //   } if (filterByNumericValues[0].comparison === 'menor que') {
   //     const filtered = data.filter((planet) => (
-  //       +planet[column] < +value
+  //       +planet[filterByNumericValues[0].column] < +filterByNumericValues[0].value
   //     ));
   //     result.push(...filtered);
-  //   } if (comparison === 'igual a') {
+  //   } if (filterByNumericValues[0].comparison === 'igual a') {
   //     const filtered = data.filter((planet) => (
-  //       +planet[column] === +value
+  //       +planet[filterByNumericValues[0].column] === +filterByNumericValues[0].value
   //     ));
   //     result.push(...filtered);
   //   }
   //   return result;
   // };
+
+  // useEffect(() => {
+  //   filterNumber();
+  // });
 
   // useEffect(() => {
   //   handleFilterNumber();

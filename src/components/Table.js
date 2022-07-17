@@ -3,7 +3,9 @@ import tableContext from '../context/tableContext';
 
 function Table() {
   const {
+    filter,
     handleFilterName,
+    teste,
   } = useContext(tableContext);
 
   const categories = [
@@ -21,14 +23,6 @@ function Table() {
     'Edited',
     'Url',
   ];
-
-  // function teste() {
-  //   console.log('oi', data.map((obj) => obj.name));
-  // }
-
-  // teste();
-  // handleFilterName();
-  
 
   return (
     <table>
@@ -52,10 +46,21 @@ function Table() {
       </thead>
       <tbody>
         {
-          handleFilterName().map((planet, index) => (
+          teste && filter.map((planet, index) => (
             <tr key={ index }>
               {
                 Object.values(planet).map((dataBase, index2) => (
+                  <td key={ index2 }>{dataBase}</td>
+                ))
+              }
+            </tr>
+          ))
+        }
+        {
+          !teste && handleFilterName().map((a, index) => (
+            <tr key={ index }>
+              {
+                Object.values(a).map((dataBase, index2) => (
                   <td key={ index2 }>{dataBase}</td>
                 ))
               }
