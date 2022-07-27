@@ -2,10 +2,20 @@ import React, { useContext } from 'react';
 import tableContext from '../context/tableContext';
 
 function NameFilter() {
-  const { filterByName, setFilterName } = useContext(tableContext);
+  const {
+    data,
+    filterByName,
+    setFilterName,
+    setDataFilteredByName,
+  } = useContext(tableContext);
 
   const handleFilter = (target) => {
+    const { name } = filterByName;
     setFilterName(target.value);
+    const result = data.filter((planet) => (
+      planet.name.toLowerCase().includes(name.toLowerCase())
+    ));
+    setDataFilteredByName(result);
   };
 
   return (
@@ -20,7 +30,6 @@ function NameFilter() {
         onChange={ ({ target }) => handleFilter(target) }
       />
     </div>
-
   );
 }
 

@@ -3,9 +3,10 @@ import tableContext from '../context/tableContext';
 
 function Table() {
   const {
-    filter,
-    handleFilterName,
-    teste,
+    // filter,
+    // hasFilter,
+    dataFilteredByName,
+    filterByNumericValues,
   } = useContext(tableContext);
 
   const categories = [
@@ -24,9 +25,22 @@ function Table() {
     'Url',
   ];
 
+  const deleteFunction = () => {
+    console.log('apagado');
+  };
+
   return (
-    <table>
-      {/* <thead>
+    <div>
+      {
+        filterByNumericValues.map((planet, i) => (
+          <div key={ i }>
+            <div>{`${planet.column}${planet.comparison}${planet.value}`}</div>
+            <button type="button" onClick={ deleteFunction }>delete</button>
+          </div>
+        ))
+      }
+      <table>
+        {/* <thead>
         <tr>
           {
             Object.keys(data[0]).map((obj) => (
@@ -35,18 +49,29 @@ function Table() {
           }
         </tr>
       </thead> */}
-      <thead>
-        <tr>
-          {
-            categories.map((obj) => (
-              <th key={ obj }>{obj}</th>
-            ))
-          }
-        </tr>
-      </thead>
-      <tbody>
+        <thead>
+          <tr>
+            {
+              categories.map((obj) => (
+                <th key={ obj }>{obj}</th>
+              ))
+            }
+          </tr>
+        </thead>
+        <tbody>
+          {/* {
+          !hasFilter && dataFilteredByName.map((item, index) => (
+            <tr key={ index }>
+              {
+                Object.values(item).map((dataBase, index2) => (
+                  <td key={ index2 }>{dataBase}</td>
+                ))
+              }
+            </tr>
+          ))
+        }
         {
-          teste && filter.map((planet, index) => (
+          hasFilter && filter.map((planet, index) => (
             <tr key={ index }>
               {
                 Object.values(planet).map((dataBase, index2) => (
@@ -55,20 +80,21 @@ function Table() {
               }
             </tr>
           ))
-        }
-        {
-          !teste && handleFilterName().map((a, index) => (
-            <tr key={ index }>
-              {
-                Object.values(a).map((dataBase, index2) => (
-                  <td key={ index2 }>{dataBase}</td>
-                ))
-              }
-            </tr>
-          ))
-        }
-      </tbody>
-    </table>
+        } */}
+          {
+            dataFilteredByName.map((item, index) => (
+              <tr key={ index }>
+                {
+                  Object.values(item).map((dataBase, index2) => (
+                    <td key={ index2 }>{dataBase}</td>
+                  ))
+                }
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
   );
 }
 

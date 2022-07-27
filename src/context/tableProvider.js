@@ -5,44 +5,28 @@ import TableContext from './tableContext';
 
 function TableProvider({ children }) {
   const [data, setData] = useState([]);
+  const [dataFilteredByName, setDataFilteredByName] = useState([]);
 
   const [filterName, setFilterName] = useState('');
-
-  const [column, setColumn] = useState('population');
-  const [comparison, setComparison] = useState('maior que');
-  const [value, setValue] = useState(0);
   const [filterByNumericValues, setFilterByNumericValues] = useState([]);
 
-  const [filter, setFilters] = useState([]);
-  const [teste, setTeste] = useState(false);
-
-  const handleFilterName = () => {
-    const planetFiltered = data.filter((planet) => (
-      planet.name.toLowerCase().includes(filterName.toLowerCase())
-    ));
-    // console.log(planetFiltered);
-    return planetFiltered;
-  };
+  const [filter, setFilter] = useState([]);
+  const [hasFilter, setHasFilter] = useState(false);
 
   const contextValue = {
     data,
     filterByName: {
       name: filterName,
     },
-    filterByNumericValues,
-    column,
-    comparison,
-    value,
-    setFilterByNumericValues,
     setFilterName,
-    setColumn,
-    setComparison,
-    setValue,
-    handleFilterName,
+    filterByNumericValues,
+    setFilterByNumericValues,
     filter,
-    setFilters,
-    teste,
-    setTeste,
+    setFilter,
+    hasFilter,
+    setHasFilter,
+    dataFilteredByName,
+    setDataFilteredByName,
   };
 
   const fetchPlanets = async () => {
@@ -52,19 +36,11 @@ function TableProvider({ children }) {
       delete planet.residents;
       return planet;
     }));
+    setDataFilteredByName(response.results.map((planet) => {
+      delete planet.residents;
+      return planet;
+    }));
   };
-
-  // useEffect(() => {
-  //   const fetchPlanets = async () => {
-  //     const endPoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
-  //     const planets = await fetch(endPoint).then((response) => response.json());
-  //     setData(planets.results.map((planet) => {
-  //       delete planet.residents;
-  //       return planet;
-  //     }));
-  //   };
-  //   fetchPlanets();
-  // }, []);
 
   useEffect(() => {
     fetchPlanets();
