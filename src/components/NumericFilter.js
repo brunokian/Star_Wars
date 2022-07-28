@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import tableContext from '../context/tableContext';
 
 function NumericFilter() {
@@ -6,13 +6,12 @@ function NumericFilter() {
     dataFilteredByName,
     setDataFilteredByName,
     setFilterByNumericValues,
+    filterByNumericValues,
     // setFilters,
     setHasFilter,
+    data,
   } = useContext(tableContext);
 
-  const [column, setColumn] = useState('population');
-  const [comparison, setComparison] = useState('maior que');
-  const [value, setValue] = useState(0);
   const [columnsOptions, setColumnsOptions] = useState([
     'population',
     'orbital_period',
@@ -20,6 +19,9 @@ function NumericFilter() {
     'rotation_period',
     'surface_water',
   ]);
+  const [column, setColumn] = useState(columnsOptions[0]);
+  const [comparison, setComparison] = useState('maior que');
+  const [numericValue, setNumericValue] = useState(0);
 
   const notSameFilter = () => {
     const filter = columnsOptions.filter((option) => (
@@ -28,31 +30,59 @@ function NumericFilter() {
     setColumnsOptions(filter);
   };
 
-  const handleFilterNumber = () => {
-    setFilterByNumericValues((prev) => [...prev, { column, comparison, value }]);
+  const deleteFunction = ({ target: { value } }) => {
+    setColumnsOptions([...columnsOptions, value]);
+    const result = filterByNumericValues.filter((filter) => (
+      filter.column !== value
+    ));
+    setFilterByNumericValues(result);
+  };
+
+  const handleClick = () => {
+    setFilterByNumericValues((prev) => [...prev, { column, comparison, numericValue }]);
+  };
+
+  function handleFilterNumber(filtro, datas) {
+    // setFilterByNumericValues((prev) => [...prev, { column, comparison, numericValue }]);
+    const { column, comparison, numericValue } = filtro;
     const result = [];
-    const planetFiltered = dataFilteredByName;
-    if (comparison === 'maior que') {
-      const filtered = planetFiltered.filter((planet) => (
-        +planet[column] > +value
-      ));
-      result.push(...filtered);
-    } if (comparison === 'menor que') {
-      const filtered = planetFiltered.filter((planet) => (
-        +planet[column] < +value
-      ));
-      result.push(...filtered);
-    } if (comparison === 'igual a') {
-      const filtered = planetFiltered.filter((planet) => (
-        +planet[column] === +value
-      ));
-      result.push(...filtered);
+    let planetFiltered = datas;
+    if (filterByNumericValues !== 0) {
+      filterByNumericValues.forEach((item) => {
+        if (item.comparison === 'maior que') {
+          planetFiltered = planetFiltered.filter((planet) => (
+            +planet[item.column] > +item.numericValue
+          ));
+        } if (item.comparison === 'menor que') {
+          planetFiltered = planetFiltered.filter((planet) => (
+            +planet[item.column] < +item.numericValue
+          ));
+        } if (item.comparison === 'igual a') {
+          planetFiltered = planetFiltered.filter((planet) => (
+            +planet[item.column] === +item.numericValue
+          ));
+        }
+      });
     }
-    setDataFilteredByName(result);
+    setDataFilteredByName(planetFiltered);
     setHasFilter(true);
     notSameFilter();
     return result;
+  }
+
+  const deleteAll = () => {
+    setFilterByNumericValues([]);
+    setDataFilteredByName(data);
   };
+
+  useEffect(() => {
+    if (filterByNumericValues.length === 0) {
+      setDataFilteredByName(data);
+    }
+    filterByNumericValues.forEach((filtro) => {
+      handleFilterNumber(filtro, data);
+    });
+  }, [filterByNumericValues]);
 
   // const setFilter = async () => {
   //   setFilterByNumericValues((prev) => [...prev, { column, comparison, value }]);
@@ -98,18 +128,41 @@ function NumericFilter() {
         name="value"
         data-testid="value-filter"
         type="text"
-        value={ value }
-        onChange={ ({ target }) => setValue(target.value) }
+        value={ numericValue }
+        onChange={ ({ target }) => setNumericValue(target.value) }
       />
       <button
         id="filterButton"
         name="filterButton"
         data-testid="button-filter"
         type="button"
-        onClick={ () => handleFilterNumber() }
+        onClick={ () => handleClick() }
       >
         FILTRAR
       </button>
+      <button
+        id="deleteButton"
+        name="deleteButton"
+        data-testid="button-remove-filters"
+        type="button"
+        onClick={ () => deleteAll() }
+      >
+        DELETE
+      </button>
+      {
+        filterByNumericValues.map((o, i) => (
+          <div key={ i }>
+            <div>{`${o.column}${o.comparison}${o.numericValue}`}</div>
+            <button
+              type="button"
+              onClick={ deleteFunction }
+              value={ o.column }
+            >
+              delete
+            </button>
+          </div>
+        ))
+      }
     </div>
   );
 }

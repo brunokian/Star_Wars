@@ -6,7 +6,6 @@ function Table() {
     // filter,
     // hasFilter,
     dataFilteredByName,
-    filterByNumericValues,
   } = useContext(tableContext);
 
   const categories = [
@@ -25,20 +24,8 @@ function Table() {
     'Url',
   ];
 
-  const deleteFunction = () => {
-    console.log('apagado');
-  };
-
   return (
     <div>
-      {
-        filterByNumericValues.map((planet, i) => (
-          <div key={ i }>
-            <div>{`${planet.column}${planet.comparison}${planet.value}`}</div>
-            <button type="button" onClick={ deleteFunction }>delete</button>
-          </div>
-        ))
-      }
       <table>
         {/* <thead>
         <tr>

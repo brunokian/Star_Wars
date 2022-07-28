@@ -4,16 +4,15 @@ import tableContext from '../context/tableContext';
 function NameFilter() {
   const {
     data,
-    filterByName,
-    setFilterName,
+    // setFilterName,
     setDataFilteredByName,
   } = useContext(tableContext);
 
-  const handleFilter = (target) => {
-    const { name } = filterByName;
-    setFilterName(target.value);
+  const handleFilter = ({ value }) => {
+    // const { name } = filterByName;
+    // setFilterName(target.value);
     const result = data.filter((planet) => (
-      planet.name.toLowerCase().includes(name.toLowerCase())
+      planet.name.toLowerCase().includes(value.toLowerCase())
     ));
     setDataFilteredByName(result);
   };
@@ -26,7 +25,6 @@ function NameFilter() {
         data-testid="name-filter"
         type="text"
         placeholder="Search..."
-        value={ filterByName.name }
         onChange={ ({ target }) => handleFilter(target) }
       />
     </div>

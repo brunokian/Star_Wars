@@ -32,14 +32,12 @@ function TableProvider({ children }) {
   const fetchPlanets = async () => {
     const planets = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
     const response = await planets.json();
-    setData(response.results.map((planet) => {
-      delete planet.residents;
-      return planet;
-    }));
-    setDataFilteredByName(response.results.map((planet) => {
-      delete planet.residents;
-      return planet;
-    }));
+    const datas = response.results.filter((planet) => (
+      delete planet.residents
+    ));
+    setDataFilteredByName(datas);
+    setData(datas);
+    return datas;
   };
 
   useEffect(() => {
