@@ -3,12 +3,10 @@ import tableContext from '../context/tableContext';
 
 function NumericFilter() {
   const {
-    dataFilteredByName,
     setDataFilteredByName,
     setFilterByNumericValues,
     filterByNumericValues,
     // setFilters,
-    setHasFilter,
     data,
   } = useContext(tableContext);
 
@@ -19,7 +17,7 @@ function NumericFilter() {
     'rotation_period',
     'surface_water',
   ]);
-  const [column, setColumn] = useState(columnsOptions[0]);
+  const [column, setColumn] = useState('population');
   const [comparison, setComparison] = useState('maior que');
   const [numericValue, setNumericValue] = useState(0);
 
@@ -28,6 +26,7 @@ function NumericFilter() {
       option !== column
     ));
     setColumnsOptions(filter);
+    setColumn(columnsOptions[0]);
   };
 
   const deleteFunction = ({ target: { value } }) => {
@@ -42,22 +41,21 @@ function NumericFilter() {
     setFilterByNumericValues((prev) => [...prev, { column, comparison, numericValue }]);
   };
 
-  function handleFilterNumber(filtro, datas) {
-    // setFilterByNumericValues((prev) => [...prev, { column, comparison, numericValue }]);
-    const { column, comparison, numericValue } = filtro;
-    const result = [];
-    let planetFiltered = datas;
+  function handleFilterNumber() {
+    let planetFiltered = data;
     if (filterByNumericValues !== 0) {
       filterByNumericValues.forEach((item) => {
         if (item.comparison === 'maior que') {
           planetFiltered = planetFiltered.filter((planet) => (
             +planet[item.column] > +item.numericValue
           ));
-        } if (item.comparison === 'menor que') {
+        }
+        if (item.comparison === 'menor que') {
           planetFiltered = planetFiltered.filter((planet) => (
             +planet[item.column] < +item.numericValue
           ));
-        } if (item.comparison === 'igual a') {
+        }
+        if (item.comparison === 'igual a') {
           planetFiltered = planetFiltered.filter((planet) => (
             +planet[item.column] === +item.numericValue
           ));
@@ -65,9 +63,7 @@ function NumericFilter() {
       });
     }
     setDataFilteredByName(planetFiltered);
-    setHasFilter(true);
     notSameFilter();
-    return result;
   }
 
   const deleteAll = () => {
@@ -79,23 +75,10 @@ function NumericFilter() {
     if (filterByNumericValues.length === 0) {
       setDataFilteredByName(data);
     }
-    filterByNumericValues.forEach((filtro) => {
-      handleFilterNumber(filtro, data);
+    filterByNumericValues.forEach(() => {
+      handleFilterNumber();
     });
   }, [filterByNumericValues]);
-
-  // const setFilter = async () => {
-  //   setFilterByNumericValues((prev) => [...prev, { column, comparison, value }]);
-  //   setFilters(handleFilterNumber());
-  // };
-
-  // useEffect(() => {
-  //   filterNumber();
-  // });
-
-  // useEffect(() => {
-  //   handleFilterNumber();
-  // }, [filterByNumericValues]);
 
   return (
     <div>
@@ -151,8 +134,8 @@ function NumericFilter() {
       </button>
       {
         filterByNumericValues.map((o, i) => (
-          <div key={ i }>
-            <div>{`${o.column}${o.comparison}${o.numericValue}`}</div>
+          <div data-testid="filter" key={ i }>
+            <span>{`${o.column} | ${o.comparison} | ${o.numericValue} `}</span>
             <button
               type="button"
               onClick={ deleteFunction }
