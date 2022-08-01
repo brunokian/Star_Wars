@@ -13,6 +13,9 @@ function TableProvider({ children }) {
   const [filter, setFilter] = useState([]);
   const [hasFilter, setHasFilter] = useState(false);
 
+  const [orderValue, setOrderValue] = useState('');
+  const [teste, setTeste] = useState('population');
+
   const contextValue = {
     data,
     filterByName: {
@@ -27,16 +30,22 @@ function TableProvider({ children }) {
     setHasFilter,
     dataFilteredByName,
     setDataFilteredByName,
+    orderValue,
+    setOrderValue,
+    teste,
+    setTeste,
   };
 
   const fetchPlanets = async () => {
+    const menosUm = -1;
     const planets = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
     const response = await planets.json();
     const datas = response.results.filter((planet) => (
       delete planet.residents
     ));
-    setDataFilteredByName(datas);
-    setData(datas);
+    const result = datas.sort((a, b) => (a.name > b.name ? 1 : menosUm));
+    setDataFilteredByName(result);
+    setData(result);
     return datas;
   };
 

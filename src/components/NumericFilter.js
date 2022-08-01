@@ -8,6 +8,11 @@ function NumericFilter() {
     filterByNumericValues,
     // setFilters,
     data,
+    orderValue,
+    setOrderValue,
+    teste,
+    setTeste,
+    dataFilteredByName,
   } = useContext(tableContext);
 
   const [columnsOptions, setColumnsOptions] = useState([
@@ -80,6 +85,19 @@ function NumericFilter() {
     });
   }, [filterByNumericValues]);
 
+  const ordering = () => {
+    let newPlanets = dataFilteredByName.filter((item) => item[teste] !== 'unknown');
+    if (orderValue === 'ASC') {
+      newPlanets = newPlanets
+        .sort((a, b) => parseInt(a[teste], 10) - parseInt(b[teste], 10));
+    }
+    if (orderValue === 'DESC') {
+      newPlanets = newPlanets
+        .sort((a, b) => parseInt(b[teste], 10) - parseInt(a[teste], 10));
+    }
+    setDataFilteredByName(newPlanets);
+  };
+
   return (
     <div>
       <select
@@ -146,8 +164,52 @@ function NumericFilter() {
           </div>
         ))
       }
+      <select
+        name="orderColumn"
+        id="orderColumn"
+        data-testid="column-sort"
+        onChange={ ({ target }) => setTeste(target.value) }
+      >
+        <option value="population">population</option>
+        <option value="orbital_period">orbital_period</option>
+        <option value="diameter">diameter</option>
+        <option value="rotation_period">rotation_period</option>
+        <option value="surface_water">surface_water</option>
+      </select>
+      <label htmlFor="asc-order">
+        <input
+          type="radio"
+          name="radioOrder"
+          id="asc-order"
+          value="ASC"
+          onChange={ ({ target }) => setOrderValue(target.value) }
+          data-testid="column-sort-input-asc"
+        />
+        Ascendente
+      </label>
+      <label htmlFor="desc-order">
+        <input
+          type="radio"
+          name="radioOrder"
+          id="desc-order"
+          value="DESC"
+          onChange={ ({ target }) => setOrderValue(target.value) }
+          data-testid="column-sort-input-desc"
+        />
+        Descendente
+      </label>
+      <button
+        type="button"
+        name="buttonOrder"
+        id="buttonOrder"
+        data-testid="column-sort-button"
+        onClick={ ordering }
+      >
+        ORDENAR
+      </button>
     </div>
   );
 }
 
+// function disabledButton() {return true/false}
 export default NumericFilter;

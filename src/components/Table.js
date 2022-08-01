@@ -71,11 +71,19 @@ function Table() {
           {
             dataFilteredByName.map((item, index) => (
               <tr key={ index }>
-                {
-                  Object.values(item).map((dataBase, index2) => (
-                    <td key={ index2 }>{dataBase}</td>
-                  ))
-                }
+                <td data-testid="planet-name">{item.name}</td>
+                <td>{item.rotation_period}</td>
+                <td>{item.orbital_period}</td>
+                <td>{item.diameter}</td>
+                <td>{item.climate}</td>
+                <td>{item.gravity}</td>
+                <td>{item.terrain}</td>
+                <td>{item.surface_water}</td>
+                <td>{item.population}</td>
+                <td>{item.films}</td>
+                <td>{item.created}</td>
+                <td>{item.edited}</td>
+                <td>{item.url}</td>
               </tr>
             ))
           }
