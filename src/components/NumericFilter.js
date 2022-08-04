@@ -148,7 +148,7 @@ function NumericFilter() {
         type="button"
         onClick={ () => deleteAll() }
       >
-        DELETE
+        DELETEALL
       </button>
       {
         filterByNumericValues.map((o, i) => (
