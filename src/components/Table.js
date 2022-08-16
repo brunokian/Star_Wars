@@ -1,10 +1,9 @@
 import React, { useContext } from 'react';
 import tableContext from '../context/tableContext';
+import { Categories, PlanetsData } from '../styles';
 
 function Table() {
   const {
-    // filter,
-    // hasFilter,
     dataFilteredByName,
   } = useContext(tableContext);
 
@@ -27,50 +26,19 @@ function Table() {
   return (
     <div>
       <table>
-        {/* <thead>
-        <tr>
-          {
-            Object.keys(data[0]).map((obj) => (
-              <th key={ obj }>{obj}</th>
-            ))
-          }
-        </tr>
-      </thead> */}
         <thead>
-          <tr>
+          <Categories>
             {
               categories.map((obj) => (
                 <th key={ obj }>{obj}</th>
               ))
             }
-          </tr>
+          </Categories>
         </thead>
         <tbody>
-          {/* {
-          !hasFilter && dataFilteredByName.map((item, index) => (
-            <tr key={ index }>
-              {
-                Object.values(item).map((dataBase, index2) => (
-                  <td key={ index2 }>{dataBase}</td>
-                ))
-              }
-            </tr>
-          ))
-        }
-        {
-          hasFilter && filter.map((planet, index) => (
-            <tr key={ index }>
-              {
-                Object.values(planet).map((dataBase, index2) => (
-                  <td key={ index2 }>{dataBase}</td>
-                ))
-              }
-            </tr>
-          ))
-        } */}
           {
             dataFilteredByName.map((item, index) => (
-              <tr key={ index }>
+              <PlanetsData key={ index }>
                 <td data-testid="planet-name">{item.name}</td>
                 <td>{item.rotation_period}</td>
                 <td>{item.orbital_period}</td>
@@ -84,7 +52,7 @@ function Table() {
                 <td>{item.created}</td>
                 <td>{item.edited}</td>
                 <td>{item.url}</td>
-              </tr>
+              </PlanetsData>
             ))
           }
         </tbody>

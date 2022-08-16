@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import tableContext from '../context/tableContext';
+import { NumericFilterGroup } from '../styles';
 
 function NumericFilter() {
   const {
@@ -100,70 +101,73 @@ function NumericFilter() {
 
   return (
     <div>
-      <select
-        name="column"
-        id="column"
-        data-testid="column-filter"
-        value={ column }
-        onChange={ ({ target }) => setColumn(target.value) }
-      >
+      <NumericFilterGroup>
+        <select
+          name="column"
+          id="column"
+          data-testid="column-filter"
+          value={ column }
+          onChange={ ({ target }) => setColumn(target.value) }
+        >
+          {
+            columnsOptions.map((option) => (
+              <option key={ option } value={ option }>{option}</option>
+            ))
+          }
+        </select>
+        <select
+          name="comparison"
+          id="compaarion"
+          data-testid="comparison-filter"
+          value={ comparison }
+          onChange={ ({ target }) => setComparison(target.value) }
+        >
+          <option value="maior que">maior que</option>
+          <option value="menor que">menor que</option>
+          <option value="igual a">igual a</option>
+        </select>
+        <input
+          id="value"
+          name="value"
+          data-testid="value-filter"
+          type="text"
+          value={ numericValue }
+          onChange={ ({ target }) => setNumericValue(target.value) }
+        />
+        <button
+          id="filterButton"
+          name="filterButton"
+          data-testid="button-filter"
+          type="button"
+          onClick={ () => handleClick() }
+        >
+          FILTRAR
+        </button>
+        <button
+          id="deleteButton"
+          name="deleteButton"
+          data-testid="button-remove-filters"
+          type="button"
+          onClick={ () => deleteAll() }
+        >
+          DELETEALL
+        </button>
         {
-          columnsOptions.map((option) => (
-            <option key={ option } value={ option }>{option}</option>
+          filterByNumericValues.map((o, i) => (
+            <div data-testid="filter" key={ i }>
+              <span>{`${o.column} | ${o.comparison} | ${o.numericValue} `}</span>
+              <button
+                type="button"
+                onClick={ deleteFunction }
+                value={ o.column }
+              >
+                delete
+              </button>
+            </div>
           ))
         }
-      </select>
-      <select
-        name="comparison"
-        id="compaarion"
-        data-testid="comparison-filter"
-        value={ comparison }
-        onChange={ ({ target }) => setComparison(target.value) }
-      >
-        <option value="maior que">maior que</option>
-        <option value="menor que">menor que</option>
-        <option value="igual a">igual a</option>
-      </select>
-      <input
-        id="value"
-        name="value"
-        data-testid="value-filter"
-        type="text"
-        value={ numericValue }
-        onChange={ ({ target }) => setNumericValue(target.value) }
-      />
-      <button
-        id="filterButton"
-        name="filterButton"
-        data-testid="button-filter"
-        type="button"
-        onClick={ () => handleClick() }
-      >
-        FILTRAR
-      </button>
-      <button
-        id="deleteButton"
-        name="deleteButton"
-        data-testid="button-remove-filters"
-        type="button"
-        onClick={ () => deleteAll() }
-      >
-        DELETEALL
-      </button>
-      {
-        filterByNumericValues.map((o, i) => (
-          <div data-testid="filter" key={ i }>
-            <span>{`${o.column} | ${o.comparison} | ${o.numericValue} `}</span>
-            <button
-              type="button"
-              onClick={ deleteFunction }
-              value={ o.column }
-            >
-              delete
-            </button>
-          </div>
-        ))
-      }
+      </NumericFilterGroup>
+
       <select
         name="orderColumn"
         id="orderColumn"
