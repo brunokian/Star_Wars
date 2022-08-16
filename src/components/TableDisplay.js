@@ -1,7 +1,9 @@
 import React, { useContext } from 'react';
+import { Table } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import tableContext from '../context/tableContext';
 
-function Table() {
+function TableDisplay() {
   const {
     // filter,
     // hasFilter,
@@ -26,16 +28,7 @@ function Table() {
 
   return (
     <div>
-      <table>
-        {/* <thead>
-        <tr>
-          {
-            Object.keys(data[0]).map((obj) => (
-              <th key={ obj }>{obj}</th>
-            ))
-          }
-        </tr>
-      </thead> */}
+      <Table responsive variant="dark">
         <thead>
           <tr>
             {
@@ -46,28 +39,6 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          {/* {
-          !hasFilter && dataFilteredByName.map((item, index) => (
-            <tr key={ index }>
-              {
-                Object.values(item).map((dataBase, index2) => (
-                  <td key={ index2 }>{dataBase}</td>
-                ))
-              }
-            </tr>
-          ))
-        }
-        {
-          hasFilter && filter.map((planet, index) => (
-            <tr key={ index }>
-              {
-                Object.values(planet).map((dataBase, index2) => (
-                  <td key={ index2 }>{dataBase}</td>
-                ))
-              }
-            </tr>
-          ))
-        } */}
           {
             dataFilteredByName.map((item, index) => (
               <tr key={ index }>
@@ -88,9 +59,9 @@ function Table() {
             ))
           }
         </tbody>
-      </table>
+      </Table>
     </div>
   );
 }
 
-export default Table;
+export default TableDisplay;
