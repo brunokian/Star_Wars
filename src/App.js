@@ -2,16 +2,16 @@ import React from 'react';
 import './App.css';
 import NameFilter from './components/NameFilter';
 import NumericFilter from './components/NumericFilter';
-import Table from './components/Table';
+import TableDisplay from './components/TableDisplay';
 import TableProvider from './context/tableProvider';
 
 function App() {
   return (
     <TableProvider>
-      <h1>STARWARS PLANETS</h1>
+      <img id="logo" src={ require('./images/logo.png') } alt="title" />
       <NameFilter />
       <NumericFilter />
-      <Table />
+      <TableDisplay />
     </TableProvider>
   );
 }

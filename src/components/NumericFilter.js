@@ -1,12 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { Button, Container, InputGroup, Form, Row, Col } from 'react-bootstrap';
 import tableContext from '../context/tableContext';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../App.css';
 
 function NumericFilter() {
   const {
     setDataFilteredByName,
     setFilterByNumericValues,
     filterByNumericValues,
-    // setFilters,
     data,
     orderValue,
     setOrderValue,
@@ -99,57 +101,78 @@ function NumericFilter() {
   };
 
   return (
-    <div>
-      <select
-        name="column"
-        id="column"
-        data-testid="column-filter"
-        value={ column }
-        onChange={ ({ target }) => setColumn(target.value) }
-      >
-        {
-          columnsOptions.map((option) => (
-            <option key={ option } value={ option }>{option}</option>
-          ))
-        }
-      </select>
-      <select
-        name="comparison"
-        id="compaarion"
-        data-testid="comparison-filter"
-        value={ comparison }
-        onChange={ ({ target }) => setComparison(target.value) }
-      >
-        <option value="maior que">maior que</option>
-        <option value="menor que">menor que</option>
-        <option value="igual a">igual a</option>
-      </select>
-      <input
-        id="value"
-        name="value"
-        data-testid="value-filter"
-        type="text"
-        value={ numericValue }
-        onChange={ ({ target }) => setNumericValue(target.value) }
-      />
-      <button
-        id="filterButton"
-        name="filterButton"
-        data-testid="button-filter"
-        type="button"
-        onClick={ () => handleClick() }
-      >
-        FILTRAR
-      </button>
-      <button
-        id="deleteButton"
-        name="deleteButton"
-        data-testid="button-remove-filters"
-        type="button"
-        onClick={ () => deleteAll() }
-      >
-        DELETEALL
-      </button>
+    <Container fluid>
+      <h4>Others-Filters</h4>
+      <Row className="g-2">
+        <Col>
+          <Form.Select
+            aria-label="Default select example"
+            className="mb-3"
+            name="column"
+            id="column"
+            data-testid="column-filter"
+            value={ column }
+            onChange={ ({ target }) => setColumn(target.value) }
+          >
+            {
+              columnsOptions.map((option) => (
+                <option key={ option } value={ option }>{option}</option>
+              ))
+            }
+          </Form.Select>
+        </Col>
+        <Col>
+          <Form.Select
+            aria-label="Default select example"
+            className="mb-3"
+            name="comparison"
+            id="compaarion"
+            data-testid="comparison-filter"
+            value={ comparison }
+            onChange={ ({ target }) => setComparison(target.value) }
+          >
+            <option value="maior que">maior que</option>
+            <option value="menor que">menor que</option>
+            <option value="igual a">igual a</option>
+          </Form.Select>
+        </Col>
+        <Col>
+          <InputGroup className="mb-3">
+            <InputGroup.Text id="basic-addon2">Value</InputGroup.Text>
+            <Form.Control
+              aria-describedby="basic-addon2"
+              id="value"
+              name="value"
+              data-testid="value-filter"
+              type="text"
+              value={ numericValue }
+              onChange={ ({ target }) => setNumericValue(target.value) }
+            />
+          </InputGroup>
+        </Col>
+        <Col sm="auto">
+          <Button
+            variant="outline-warning"
+            id="filterButton"
+            name="filterButton"
+            data-testid="button-filter"
+            type="button"
+            onClick={ () => handleClick() }
+          >
+            FILTER
+          </Button>
+          <Button
+            variant="outline-warning"
+            id="deleteButton"
+            name="deleteButton"
+            data-testid="button-remove-filters"
+            type="button"
+            onClick={ () => deleteAll() }
+          >
+            DELETE
+          </Button>
+        </Col>
+      </Row>
       {
         filterByNumericValues.map((o, i) => (
           <div data-testid="filter" key={ i }>
@@ -164,52 +187,64 @@ function NumericFilter() {
           </div>
         ))
       }
-      <select
-        name="orderColumn"
-        id="orderColumn"
-        data-testid="column-sort"
-        onChange={ ({ target }) => setTeste(target.value) }
-      >
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
-      </select>
-      <label htmlFor="asc-order">
-        <input
-          type="radio"
-          name="radioOrder"
-          id="asc-order"
-          value="ASC"
-          onChange={ ({ target }) => setOrderValue(target.value) }
-          data-testid="column-sort-input-asc"
-        />
-        Ascendente
-      </label>
-      <label htmlFor="desc-order">
-        <input
-          type="radio"
-          name="radioOrder"
-          id="desc-order"
-          value="DESC"
-          onChange={ ({ target }) => setOrderValue(target.value) }
-          data-testid="column-sort-input-desc"
-        />
-        Descendente
-      </label>
-      <button
-        type="button"
-        name="buttonOrder"
-        id="buttonOrder"
-        data-testid="column-sort-button"
-        onClick={ ordering }
-      >
-        ORDENAR
-      </button>
-    </div>
+      <Row>
+        <h4>Ordering the Planets</h4>
+        <Col>
+          <Form.Select
+            aria-label="Default select example"
+            name="orderColumn"
+            id="orderColumn"
+            data-testid="column-sort"
+            onChange={ ({ target }) => setTeste(target.value) }
+          >
+            <option value="population">population</option>
+            <option value="orbital_period">orbital_period</option>
+            <option value="diameter">diameter</option>
+            <option value="rotation_period">rotation_period</option>
+            <option value="surface_water">surface_water</option>
+          </Form.Select>
+        </Col>
+        <Col sm="auto">
+          <div key="inline-checkbox" className="mb-3">
+            <Form.Check
+              inline
+              className="radio-order"
+              label="Ascendent"
+              type="radio"
+              name="radioOrder"
+              id="asc-order"
+              value="ASC"
+              onChange={ ({ target }) => setOrderValue(target.value) }
+              data-testid="column-sort-input-asc"
+            />
+            <Form.Check
+              inline
+              className="radio-order"
+              label="Descendent"
+              type="radio"
+              name="radioOrder"
+              id="desc-order"
+              value="DESC"
+              onChange={ ({ target }) => setOrderValue(target.value) }
+              data-testid="column-sort-input-desc"
+            />
+          </div>
+        </Col>
+        <Col>
+          <Button
+            variant="outline-warning"
+            type="button"
+            name="buttonOrder"
+            id="buttonOrder"
+            data-testid="column-sort-button"
+            onClick={ ordering }
+          >
+            ORDER
+          </Button>
+        </Col>
+      </Row>
+
+    </Container>
   );
 }
-
-// function disabledButton() {return true/false}
 export default NumericFilter;
