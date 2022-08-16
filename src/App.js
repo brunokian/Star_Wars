@@ -8,12 +8,13 @@ import TableProvider from './context/tableProvider';
 function App() {
   return (
     <TableProvider>
-      <img id="logo" src={ require('./images/logo.png') } alt="title" />
       <NameFilter />
       <NumericFilter />
       <TableDisplay />
     </TableProvider>
   );
 }
+
+// <img id="logo" src={ require('./images/logo.png') } alt="title" />
 
 export default App;
