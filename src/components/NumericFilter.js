@@ -181,6 +181,7 @@ function NumericFilter() {
               type="button"
               onClick={ deleteFunction }
               value={ o.column }
+              className="delete-button"
             >
               delete
             </button>
